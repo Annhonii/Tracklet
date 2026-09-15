@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -41,14 +41,23 @@ jobs:
       - name: Prepare Keystore & Environment Secrets
         run: |
           echo "Setting up build environment..."
+
           if [ -f debug.keystore.base64 ]; then
             base64 -d debug.keystore.base64 > debug.keystore
             echo "debug.keystore restored from base64."
           elif [ ! -f debug.keystore ]; then
             echo "Generating fallback debug keystore..."
-            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+            keytool -genkey -v \
+              -keystore debug.keystore \
+              -storepass android \
+              -alias androiddebugkey \
+              -keypass android \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
           fi
-          
+
           if [ ! -f .env ]; then
             if [ -f .env.example ]; then
               cp .env.example .env
@@ -78,4 +87,15 @@ jobs:
         run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
         continue-on-error: true
 
-      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Tracklet Apk
+          body: >
+            This app is developed based on personal needs and interest.
+            I will continue to push updates and add features whenever necessary or as inspiration strikes.
+          files: app/build/outputs/apk/debug/*.apk
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
