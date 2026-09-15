@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Tracklet</string>
+    <string name="screen_time_title">Screen Time</string>
+    <string name="data_usage_title">Data Usage</string>
+    <string name="settings_title">Settings</string>
+    <string name="grant_permission">Grant Usage Access</string>
+    <string name="permission_rationale">Tracklet provides clear insights into your device screen time and data usage directly on your device. To visualize your digital habits, please grant Usage Access permission.</string>
+    <string name="monitoring_service_name">Tracklet Usage Monitor</string>
+    <string name="monitoring_service_desc">Lightweight background tracking of daily screen time</string>
+    <string name="monitoring_channel_name">Tracklet Usage</string>
+    <string name="monitoring_channel_desc">Daily screen time summary</string>
+    <string name="qs_tile_label">Data / Wi-Fi</string>
+    <string name="qs_tile_desc">Toggle between Mobile Data and Wi-Fi usage</string>
+</resources>
